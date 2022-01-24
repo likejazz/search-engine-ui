@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Search Engine UI</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+    </script>
+    <style>
+        .smaller {
+            font-size: 0.7em;
+        }
+
+        .bg-warning {
+            background-color: #ffc107;
+        }
+
+        strong {
+            background-color: lightgoldenrodyellow;
+        }
+    </style>
+</head>
+<body>
+<main role="main" style="background-color: whitesmoke">
+    <div class="container">
+        <header class="d-flex py-3 mb-4 border-bottom">
+            <a href="/" class="mb-3 me-md-auto text-dark text-decoration-none">
+                LOGO
+                <span class="fs-4">Search Engine UI</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="?m=1&q={{ q }}&g={{ g }}"
+                                        class="nav-link {% if m == "1" %}active{% endif %}{% if m == "2" %} text-dark{% endif %}">일반
+                    모드</a></li>
+                <li class="nav-item"><a href="?m=2&q={{ q }}&g={{ g }}"
+                                        class="nav-link{% if m == "2" %} bg-warning text-dark{% endif %}">개발 모드</a></li>
+            </ul>
+        </header>
+
+        <form action='.' method="GET">
+            <input type="hidden" name="m" value="{{ m }}">
+
+            {% if m == "2" %}
+                <div class="d-flex justify-content-between mb-2">
+                    <div><small>스타벅스/N</small> <a href="#" class="btn btn-warning btn-sm">_validate</a>
+                    </div>
+                    <div class="font-monospace"><small class="text-dark text-opacity-25 smaller">xxx.xxx.xxx</small>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="input-group mb-3">
+                <input type="text" name="q" class="form-control" placeholder="검색 쿼리를 입력하세요." id="q" value="{{ q }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn {% if m == "1" %}btn-primary{% else %}btn-warning{% endif %}">검색
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="g" id="inlineRadio1"
+                           value="1" {% if g == "1" %}checked{% endif %}>
+                    <label class="form-check-label" for="inlineRadio1">제주 공항</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="g" id="inlineRadio2"
+                           value="2" {% if g == "2" %}checked{% endif %}>
+                    <label class="form-check-label" for="inlineRadio2">중문 신라호텔</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="g" id="inlineRadio3"
+                           value="3" {% if g == "3" %}checked{% endif %}>
+                    <label class="form-check-label" for="inlineRadio3">성산일출봉</label>
+                </div>
+            </div>
+
+            <div class="nav pb-0">
+                <span class="text-left">
+                    <small>1,024 hits /</small>
+                    <small>{{ elapsed }}s elapsed.</small>
+                </span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">_doc</th>
+                        <th scope="col">장소명</th>
+                        <th scope="col">카테고리</th>
+                        <th scope="col">주소</th>
+                        <th scope="col">거리</th>
+                        <th scope="col">점수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in range(5) %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>1000</td>
+                            <td>성산일출봉<strong>스타벅스</strong></td>
+                            <td><small class="smaller">음식점</small></td>
+                            <td><small class="smaller">제주특별자치도 서귀포시 성산읍 신천리 109-11</small></td>
+                            <td><small>0.9km</small></td>
+                            <td>20.32329
+                                {% if m == "2" %}
+                                    <div>
+                                        <small class="text-dark text-opacity-25 smaller">sim(20.4), dist(0.4),
+                                            prom(0.1)</small>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a href="#"
+                                           class="btn btn-warning btn-sm">_score</a>
+                                        <a href="#"
+                                           class="btn btn-warning btn-sm">_termvectors</a>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    // Searchbox select all on focus
+                    $('#q').on('focus', function () {
+                        $(this).select();
+                    });
+                    $('#q').focus();
+                });
+            </script>
+        </form>
+        <p></p>
+    </div>
+</main>
+
+<footer class="py-3 my-4">
+    <p class="nav justify-content-center border-bottom pb-2 mb-2">
+        <small>Sang-Kil Park &lt;skpark1224@hyundai.com&gt;</small>
+    </p>
+    <p class="text-center text-muted">© 2022 Copyright</p>
+</footer>
+
+</body>
+</html>
